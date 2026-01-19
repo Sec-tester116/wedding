@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Our Wedding</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Welcome Page -->
+  <div id="welcome" class="page active">
+    <h1>💍 Welcome to Our Wedding</h1>
+    <p>Leave a message that we will read after our wedding</p>
+
+    <button onclick="choose('groom')">💙 Message the Groom</button>
+    <button onclick="choose('bride')">💖 Message the Bride</button>
+  </div>
+
+  <!-- Message Page -->
+  <div id="messagePage" class="page">
+    <h2 id="title"></h2>
+
+    <textarea id="message" placeholder="Write your message here..."></textarea>
+
+    <button onclick="sendMessage()">Send Message</button>
+    <button class="back" onclick="goBack()">← Back</button>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
