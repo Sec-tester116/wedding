@@ -11,7 +11,7 @@ const supabase = window.supabase.createClient(
 const ADMIN_PASSWORD = "CHANGE_THIS_PASSWORD";
 
 // Login
-function login() {
+window.login = function () {
   const input = document.getElementById("password").value;
 
   if (input === ADMIN_PASSWORD) {
