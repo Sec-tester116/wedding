@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   background: #f7f7f7;
   text-align: center;
+  direction: rtl;
 }
 
 .container {
@@ -24,10 +25,15 @@ textarea {
   height: 150px;
   margin-top: 20px;
   padding: 10px;
+  text-align: right;
 }
 
 .back {
   background: #ddd;
+}
+
+button.back {
+  background: #eee;
 }
 
 .page {
@@ -36,4 +42,5 @@ textarea {
 
 .page.active {
   display: block;
+
 }
