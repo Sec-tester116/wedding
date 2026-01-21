@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     title.innerText =
       type === "groom"
-        ? "💙 Message to the Groom"
-        : "💖 Message to the Bride";
+        ? "💙 رساله الى العريس"
+        : "💖 رساله الى العروس";
   };
 
   // 🔙 Go back
@@ -66,3 +66,4 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
+
