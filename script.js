@@ -1,60 +1,68 @@
-const SUPABASE_URL = "https://aoxhkobnpvjnqrbsjhcl.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFveGhrb2JucHZqbnFyYnNqaGNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg5ODg2MTksImV4cCI6MjA4NDU2NDYxOX0.H6fIcKV5X4Vce66Xiz5HUKI49JNlF93BYQbNiFMWFx0";
+document.addEventListener("DOMContentLoaded", () => {
 
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+  // 🔑 Supabase config
+  const SUPABASE_URL = "https://aoxhkobnpvjnqrbsjhcl.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFveGhrb2JucHZqbnFyYnNqaGNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg5ODg2MTksImV4cCI6MjA4NDU2NDYxOX0.H6fIcKV5X4Vce66Xiz5HUKI49JNlF93BYQbNiFMWFx0";
 
-// 🌐 Pages
-const welcomePage = document.getElementById("welcome");
-const messagePage = document.getElementById("messagePage");
-const title = document.getElementById("title");
-const messageInput = document.getElementById("message");
+  const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
-let selectedRecipient = "";
+  // 🌐 Elements
+  const welcomePage = document.getElementById("welcome");
+  const messagePage = document.getElementById("messagePage");
+  const title = document.getElementById("title");
+  const messageInput = document.getElementById("message");
 
-// 👉 Choose groom or bride
-function choose(type) {
-  selectedRecipient = type;
-  welcomePage.classList.remove("active");
-  messagePage.classList.add("active");
+  let selectedRecipient = "";
 
-  title.innerText =
-    type === "groom" ? "💙 Message to the Groom" : "💖 Message to the Bride";
-}
+  // 👉 Choose groom or bride
+  window.choose = function (type) {
+    selectedRecipient = type;
 
-// 🔙 Go back
-function goBack() {
-  messageInput.value = "";
-  messagePage.classList.remove("active");
-  welcomePage.classList.add("active");
-}
+    welcomePage.classList.remove("active");
+    messagePage.classList.add("active");
 
-// 📨 SEND MESSAGE (THIS IS STEP 6)
-async function sendMessage() {
-  const message = messageInput.value.trim();
+    title.innerText =
+      type === "groom"
+        ? "💙 Message to the Groom"
+        : "💖 Message to the Bride";
+  };
 
-  if (!message) {
-    alert("Please write a message ❤️");
-    return;
-  }
-
-  const { error } = await supabase
-    .from("messages")
-    .insert([
-      {
-        recipient: selectedRecipient,
-        message: message
-      }
-    ]);
-
-  if (error) {
-    console.error(error);
-    alert("❌ Error sending message");
-  } else {
-    alert("💖 Message sent successfully!");
+  // 🔙 Go back
+  window.goBack = function () {
     messageInput.value = "";
-    goBack();
-  }
-}
+    messagePage.classList.remove("active");
+    welcomePage.classList.add("active");
+  };
+
+  // 📨 Send message
+  window.sendMessage = async function () {
+    const message = messageInput.value.trim();
+
+    if (!message) {
+      alert("Please write a message ❤️");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("messages")
+      .insert([
+        {
+          recipient: selectedRecipient,
+          message: message
+        }
+      ]);
+
+    if (error) {
+      console.error(error);
+      alert("❌ Error sending message");
+    } else {
+      alert("💖 Message sent successfully!");
+      messageInput.value = "";
+      goBack();
+    }
+  };
+
+});
