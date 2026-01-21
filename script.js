@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     title.innerText =
       type === "groom"
-        ? "💙 رساله الى العريس"
-        : "💖 رساله الى العروس";
+        ? "رساله الى العريس💙"
+        : "رساله الى العروس💖";
   };
 
   // 🔙 Go back
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = messageInput.value.trim();
 
     if (!message) {
-      alert("Please write a message ❤️");
+      alert("نسيت تكتب الرساله هههه ❤️");
       return;
     }
 
@@ -59,11 +59,12 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error(error);
       alert("❌ Error sending message");
     } else {
-      alert("💖 Message sent successfully!");
+      alert("شكرا رسالتك وصلتنا");
       messageInput.value = "";
       goBack();
     }
   };
 
 });
+
 
