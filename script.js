@@ -16,14 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const title = document.getElementById("title");
   const messageInput = document.getElementById("message");
 
-  let selectedRecipient = "";
+    window.openMessage = function () {
+      welcomePage.classList.remove("active");
+      messagePage.classList.add("active");
+    };
 
-  // 👉 Choose groom or bride
-  window.choose = function (type) {
-    selectedRecipient = type;
-
-    welcomePage.classList.remove("active");
-    messagePage.classList.add("active");
 
     title.innerText =
       type === "groom"
@@ -69,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
 };
 
 });
+
 
 
 
