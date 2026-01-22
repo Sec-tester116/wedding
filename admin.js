@@ -10,21 +10,26 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   // 🔐 كلمة المرور (غيّرها)
-  const ADMIN_PASSWORD = "CHANGE_THIS_PASSWORD";
+  const ADMIN_PASSWORD_HASH = "29924ace8d6c8ae8001ca78eb7e0884d0b93bc446fa4c122c10b17f98e434ca1";
 
   // Login
-  window.login = function () {
-    const input = document.getElementById("password").value;
+  window.login = async function () {
+  const input = document.getElementById("password").value;
 
-    if (input === ADMIN_PASSWORD) {
-      document.getElementById("login").classList.add("hidden");
-      document.getElementById("admin").classList.remove("hidden");
-      loadMessages();
-    } else {
-      alert("❌ كلمة المرور غير صحيحة");
-    }
-  };
+  const data = new TextEncoder().encode(input);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hash = Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
 
+  if (hash === ADMIN_PASSWORD_HASH) {
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("admin").classList.remove("hidden");
+    loadMessages();
+  } else {
+    alert("❌ كلمة المرور غير صحيحة");
+  }
+};
   // Load messages
   window.loadMessages = async function () {
     const { data, error } = await supabase
