@@ -13,61 +13,48 @@ document.addEventListener("DOMContentLoaded", () => {
   const welcomePage = document.getElementById("welcome");
   const messagePage = document.getElementById("messagePage");
   const nameInput = document.getElementById("senderName");
-  const title = document.getElementById("title");
   const messageInput = document.getElementById("message");
 
-    window.openMessage = function () {
-      welcomePage.classList.remove("active");
-      messagePage.classList.add("active");
-    };
-
-
-    title.innerText =
-      type === "groom"
-        ? "رساله الى العريس💙"
-        : "رساله الى العروس💖";
+  // 💌 Open message page
+  window.openMessage = function () {
+    welcomePage.classList.remove("active");
+    messagePage.classList.add("active");
   };
 
   // 🔙 Go back
   window.goBack = function () {
     messageInput.value = "";
+    nameInput.value = "";
     messagePage.classList.remove("active");
     welcomePage.classList.add("active");
   };
 
   // 📨 Send message
   window.sendMessage = async function () {
-  const message = messageInput.value.trim();
-  const senderName = nameInput.value.trim();
+    const message = messageInput.value.trim();
+    const senderName = nameInput.value.trim();
 
-  if (!message) {
-    alert("نسيت تكتب الرساله🤍");
-    return;
-  }
+    if (!message) {
+      alert("نسيت تكتب الرسالة 🤍");
+      return;
+    }
 
-  const { error } = await supabase
-    .from("messages")
-    .insert([
-      {
-        sender_name: senderName || null,
-        message: message
-      }
-    ]);
+    const { error } = await supabase
+      .from("messages")
+      .insert([
+        {
+          sender_name: senderName || null,
+          message: message
+        }
+      ]);
 
-  if (error) {
-    console.error(error);
-    alert("حدث خطأ أثناء الإرسال");
-  } else {
-    alert("💜 وصلت رسالتك، شكرًا لمشاركتنا فرحتنا");
-    messageInput.value = "";
-    nameInput.value = "";
-    goBack();
-  }
-};
+    if (error) {
+      console.error(error);
+      alert("حدث خطأ أثناء الإرسال");
+    } else {
+      alert("💜 وصلت رسالتك، شكرًا لمشاركتنا فرحتنا");
+      goBack();
+    }
+  };
 
 });
-
-
-
-
-
