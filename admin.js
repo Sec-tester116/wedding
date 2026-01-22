@@ -46,44 +46,35 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("خطأ في تحميل الرسائل");
       return;
     }
-    window.exportPDF = async function () {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    orientation: "p",
-    unit: "mm",
-    format: "a4"
-  });
-
+    window.exportTXT = async function () {
   const { data, error } = await supabase
     .from("messages")
     .select("message")
     .order("created_at", { ascending: true });
 
   if (error || data.length === 0) {
-    alert("لا توجد رسائل للتصدير");
+    alert("لا توجد رسائل للحفظ");
     return;
   }
 
-  let y = 20;
-
-  doc.setFont("Times", "Normal");
-  doc.setFontSize(14);
-  doc.text("💍 رسائل أحبّتنا", 105, 10, { align: "center" });
+  let content = "💍 رسائل أحبّتنا\n\n";
 
   data.forEach((row, index) => {
-    const text = `${index + 1}. ${row.message}`;
-
-    const lines = doc.splitTextToSize(text, 170);
-    if (y + lines.length * 7 > 280) {
-      doc.addPage();
-      y = 20;
-    }
-
-    doc.text(lines, 20, y);
-    y += lines.length * 8;
+    content += `رسالة رقم ${index + 1}:\n`;
+    content += `${row.message}\n\n`;
   });
 
-  doc.save("wedding-messages.pdf");
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "رسائل_الزفاف.txt";
+  document.body.appendChild(a);
+  a.click();
+
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 };
 
     const container = document.getElementById("messages");
