@@ -40,33 +40,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 📨 Send message
   window.sendMessage = async function () {
-    const message = messageInput.value.trim();
+  const message = messageInput.value.trim();
+  const senderName = nameInput.value.trim();
 
-    if (!message) {
-      alert("نسيت تكتب الرساله هههه ❤️");
-      return;
-    }
+  if (!message) {
+    alert("نسيت تكتب الرساله🤍");
+    return;
+  }
 
-    const { error } = await supabase
-      .from("messages")
-      .insert([
-        {
-          recipient: selectedRecipient,
-          message: message
-        }
-      ]);
+  const { error } = await supabase
+    .from("messages")
+    .insert([
+      {
+        sender_name: senderName || null,
+        message: message
+      }
+    ]);
 
-    if (error) {
-      console.error(error);
-      alert("❌ Error sending message");
-    } else {
-      alert("شكرا رسالتك وصلتنا");
-      messageInput.value = "";
-      goBack();
-    }
-  };
+  if (error) {
+    console.error(error);
+    alert("حدث خطأ أثناء الإرسال");
+  } else {
+    alert("💜 وصلت رسالتك، شكرًا لمشاركتنا فرحتنا");
+    messageInput.value = "";
+    nameInput.value = "";
+    goBack();
+  }
+};
 
 });
+
 
 
 
