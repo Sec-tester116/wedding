@@ -129,3 +129,16 @@ button.back:hover {
     transform: translateY(0);
   }
 }
+.welcome-bg {
+  background:
+    radial-gradient(circle at top right, #f3e8ff, transparent 60%),
+    radial-gradient(circle at bottom left, #fde2f3, transparent 60%);
+  padding: 30px 20px;
+  border-radius: 20px;
+}
+.message-bg {
+  background:
+    linear-gradient(180deg, #ffffff, #faf7ff);
+  padding: 30px 20px;
+  border-radius: 20px;
+}
