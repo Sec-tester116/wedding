@@ -9,56 +9,59 @@ document.addEventListener("DOMContentLoaded", () => {
     SUPABASE_ANON_KEY
   );
 
-  // 🔐 كلمة المرور (غيّرها)
-  const ADMIN_PASSWORD_HASH = "29924ace8d6c8ae8001ca78eb7e0884d0b93bc446fa4c122c10b17f98e434ca1";
+  // 🔐 Password hash
+  const ADMIN_PASSWORD_HASH =
+    "29924ace8d6c8ae8001ca78eb7e0884d0b93bc446fa4c122c10b17f98e434ca1";
 
-  // Login
+  // 🔐 Login
   window.login = async function () {
-  const input = document.getElementById("password").value;
+    const input = document.getElementById("password").value;
 
-  const data = new TextEncoder().encode(input);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hash = Array.from(new Uint8Array(hashBuffer))
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
+    const data = new TextEncoder().encode(input);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hash = Array.from(new Uint8Array(hashBuffer))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
 
-  if (hash === ADMIN_PASSWORD_HASH) {
+    if (hash !== ADMIN_PASSWORD_HASH) {
+      alert("❌ كلمة المرور غير صحيحة");
+      return;
+    }
+
     document.getElementById("login").classList.add("hidden");
     document.getElementById("admin").classList.remove("hidden");
+
     loadMessages();
-  } else {
-    alert("❌ كلمة المرور غير صحيحة");
-  }
-};
-  // Load messages
+  };
+
+  // 📥 Load messages
   window.loadMessages = async function () {
     const { data, error } = await supabase
       .from("messages")
-      .select("*")
+      .select("message, created_at")
       .order("created_at", { ascending: false });
 
     if (error) {
-      alert("خطأ في تحميل الرسائل");
       console.error(error);
+      alert("خطأ في تحميل الرسائل");
       return;
     }
 
     const container = document.getElementById("messages");
     container.innerHTML = "";
-    div.innerHTML = `
-      <div class="recipient">
-        ${msg.sender_name ? "👤 " + msg.sender_name : "👤 بدون اسم"}
-      </div>
-      <div>${msg.message}</div>
-    `;
-    data.forEach(msg => {
+
+    if (data.length === 0) {
+      container.innerHTML = "لا توجد رسائل بعد 🤍";
+      return;
+    }
+
+    data.forEach((msg, index) => {
       const div = document.createElement("div");
       div.className = "message";
       div.innerHTML = `
-        <div class="recipient">
-          ${msg.recipient === "bride" ? "💖 العروس" : "💙 العريس"}
-        </div>
+        <div class="recipient">💌 رسالة رقم ${index + 1}</div>
         <div>${msg.message}</div>
+        <small>${new Date(msg.created_at).toLocaleString("ar-SA")}</small>
       `;
       container.appendChild(div);
     });
