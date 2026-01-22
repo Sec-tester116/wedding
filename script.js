@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🌐 Elements
   const welcomePage = document.getElementById("welcome");
   const messagePage = document.getElementById("messagePage");
+  const nameInput = document.getElementById("senderName");
   const title = document.getElementById("title");
   const messageInput = document.getElementById("message");
 
@@ -66,5 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
+
 
 
