@@ -45,7 +45,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const container = document.getElementById("messages");
     container.innerHTML = "";
-
+    div.innerHTML = `
+      <div class="recipient">
+        ${msg.sender_name ? "👤 " + msg.sender_name : "👤 بدون اسم"}
+      </div>
+      <div>${msg.message}</div>
+    `;
     data.forEach(msg => {
       const div = document.createElement("div");
       div.className = "message";
