@@ -46,7 +46,15 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("خطأ في تحميل الرسائل");
       return;
     }
-    window.exportTXT = async function () {
+    
+    const container = document.getElementById("messages");
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+      container.innerHTML = "لا توجد رسائل بعد 🤍";
+      return;
+    }
+window.exportTXT = async function () {
   const { data, error } = await supabase
     .from("messages")
     .select("message")
@@ -76,14 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 };
-
-    const container = document.getElementById("messages");
-    container.innerHTML = "";
-
-    if (data.length === 0) {
-      container.innerHTML = "لا توجد رسائل بعد 🤍";
-      return;
-    }
 
     data.forEach((msg, index) => {
       const div = document.createElement("div");
